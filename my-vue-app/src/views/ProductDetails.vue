@@ -1,115 +1,113 @@
-ProductList.vue
 <template>
-    <!-- Grid layout to display products -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Iterate over filtered products and render each product card -->
-      <div v-for="product in filteredProducts" :key="product.id" class="card-container bg-white shadow-md rounded-lg overflow-hidden border p-4 cursor-pointer hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
-        <!-- Link to the product detail page -->
-        <router-link :to="`/product/${product.id}`" class="flex justify-center items-center">
-          <!-- Product image -->
-          <img :src="product.image" :alt="product.title" class="w-400px h-48 object-cover mb-5 rounded" />
-        </router-link>
-        <!-- Product details and actions -->
-        <div class="card-content p-4 flex flex-col flex-grow">
-          <!-- Product title -->
-          <h3 class="text-lg font-bold mb-2">{{ product.title }}</h3>
-          <!-- Product price -->
-          <p class="text-gray-700 mb-2">${{ product.price }}</p>
-          <!-- Product category -->
-          <p class="text-gray-500">{{ product.category }}</p>
-          <!-- Product rating and review count -->
-          <p class="text-gray-700 mb-4">
-            Rating: {{ product.rating.rate }} ({{ product.rating.count }} reviews)
-          </p>
-          <!-- Actions: Toggle favorite and Add to Cart buttons -->
-          <div class="mt-auto flex justify-evenly items-center">
-            <!-- Toggle favorite status button -->
-            <button @click="toggleFavorite(product.id)" class="">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" :class="{'text-gray-300': !isFavorite(product.id), 'text-red-500': isFavorite(product.id)}" class="w-6 h-6" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-            </button>
-            <!-- Button to add the product to the cart (no functionality in this snippet) -->
-            <button class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
-              Add To Cart +
-            </button>
-          </div>
+  <main>
+    <!-- Display error message if there's an error -->
+    <div v-if="error" class="flex justify-center p-5">
+      <Error :message="error" />
+    </div>
+    <!-- Display loading state while data is being fetched -->
+    <div v-else-if="loading" class="flex justify-center p-5">
+      <LoadingState />
+    </div>
+    <!-- Display product details if available -->
+    <div v-else class="grid m-10 space-y-5">
+      <!-- Back button to navigate to the homepage -->
+      <a href="/">
+        <button class="bg-gray-500 text-white py-2 px-4 rounded">Back</button>
+      </a>
+      <!-- Product detail section -->
+      <div v-if="product" class="flex flex-col items-center bg-white border-2 border-gray-500 p-4">
+        <img :src="product.image" :alt="product.title" class="object-contain h-48 mt-3 mb-3" />
+        <h1 class="text-lg line-clamp-2 font-extrabold leading-snug text-slate-600">{{ product.title }}</h1>
+        <p class="mt-2 text-center text-gray-700 mb-3">{{ product.description }}</p>
+        <h2 class="text-base line-clamp-2 font-extrabold text-slate-500 leading-snug mb-3">$ {{ product.price }}</h2>
+        <div class="justify-start flex-1 mt-2 mb-3">
+          <span class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">{{ product.category }}</span>
         </div>
+        <!-- <p class="mt-2 text-gray-700 mb-3">⭐ {{ product.rating?.rate }}</p> -->
+        <!-- <p class="mt-1 text-gray-700 mb-3">Reviews: {{ product.rating?.count }}</p> -->
       </div>
     </div>
-  </template>
-  
-  <script>
-  import { ref, onMounted } from 'vue';
-  import { useRoute } from 'vue-router'; // Import vue-router to handle routing
+  </main>
+</template>
+
+<script>
+import { ref, onMounted } from 'vue';
+
+/**
+ * @fileoverview This component fetches and displays the details of a single product based on its ID.
+ */
+
+export default {
+  name: 'ProductDetail',
   
   /**
-   * @fileoverview This component displays a grid of products with options to view details, toggle favorites, and add to cart.
-   * It interacts with localStorage to persist favorite products.
+   * @type {Object}
+   * @property {string | number} id - The ID of the product to display details for.
    */
-  
-  export default {
-    name: 'ProductList',
-  
-    /**
-     * Component properties.
-     * @type {Object}
-     * @property {Array} filteredProducts - Array of filtered product objects to display in the grid.
-     */
-    props: {
-      filteredProducts: {
-        type: Array,
-        required: true
-      }
-    },
-  
-    setup(props) {
-      /**
-       * Reactive array to keep track of favorite product IDs.
-       * @type {import('vue').Ref<number[]>}
-       */
-      const favorites = ref([]);
-  
-      /**
-       * Lifecycle hook that runs when the component is mounted.
-       * Retrieves the list of favorite product IDs from localStorage and initializes the favorites array.
-       */
-      onMounted(() => {
-        const storedFavorites = localStorage.getItem('favorites');
-        if (storedFavorites) {
-          favorites.value = JSON.parse(storedFavorites);
-        }
-      });
-  
-      /**
-       * Toggles the favorite status of a product by adding or removing its ID from the favorites list.
-       * Updates the favorites list in localStorage.
-       * @param {number} productId - The ID of the product to toggle.
-       */
-      const toggleFavorite = (productId) => {
-        const index = favorites.value.indexOf(productId);
-        if (index > -1) {
-          favorites.value.splice(index, 1);
-        } else {
-          favorites.value.push(productId);
-        }
-        localStorage.setItem('favorites', JSON.stringify(favorites.value));
-      };
-  
-      /**
-       * Checks if a product is in the favorites list.
-       * @param {number} productId - The ID of the product to check.
-       * @returns {boolean} - Returns true if the product is in the favorites list, otherwise false.
-       */
-      const isFavorite = (productId) => {
-        return favorites.value.includes(productId);
-      };
-  
-      return {
-        favorites,
-        toggleFavorite,
-        isFavorite
-      };
+  props: {
+    id: {
+      type: [String, Number],
+      required: true
     }
-  };
-  </script>
+  },
+
+  setup(props) {
+    /**
+     * Reactive reference for holding product details.
+     * @type {import('vue').Ref<Object>}
+     */
+    const product = ref({});
+
+    /**
+     * Reactive reference for tracking error messages.
+     * @type {import('vue').Ref<string | null>}
+     */
+    const error = ref(null);
+
+    /**
+     * Reactive reference for tracking loading state.
+     * @type {import('vue').Ref<boolean>}
+     */
+    const loading = ref(false);
+
+    /**
+     * Fetches product details from the API.
+     * @param {string | number} productId - The ID of the product to fetch details for.
+     * @returns {Promise<{response: Object | null, error: string | null}>} An object containing the response data and error message.
+     */
+    const getProductDetails = async (productId) => {
+      try {
+        const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return { response: data, error: null };
+      } catch (err) {
+        return { response: null, error: err.message };
+      }
+    };
+
+    /**
+     * Lifecycle hook that runs when the component is mounted.
+     * It fetches the product details based on the provided ID and updates the component state.
+     */
+    onMounted(async () => {
+      loading.value = true;
+      const { response, error: fetchError } = await getProductDetails(props.id);
+      if (fetchError) {
+        error.value = fetchError;
+      } else {
+        product.value = response;
+      }
+      loading.value = false;
+    });
+
+    return {
+      product,
+      error,
+      loading
+    };
+  }
+};
+</script>

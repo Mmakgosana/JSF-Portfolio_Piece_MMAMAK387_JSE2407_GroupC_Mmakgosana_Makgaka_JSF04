@@ -5,7 +5,7 @@ App.vue
     <Header />
 
     <!-- Render the content for the current route -->
-    <router-view />
+  <router-view></router-view>
   </div>
 </template>
 
