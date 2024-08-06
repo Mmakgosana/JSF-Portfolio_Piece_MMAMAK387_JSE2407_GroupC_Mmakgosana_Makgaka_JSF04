@@ -4,6 +4,10 @@ App.vue
     <!-- Render the Header component -->
     <Header />
 
+    <div id="app">
+    <StarRating :rate="3.5" :count="5" />
+  </div>
+
     <!-- Render the content for the current route -->
   <router-view></router-view>
 
@@ -19,6 +23,7 @@ It includes a Header and a router-view for rendering matched components based on
 */
 
 import Header from './components/Header.vue';
+import Ratings from './components/Ratings.vue'
 
 /** 
  
@@ -34,6 +39,9 @@ export default {
 The Header component used for navigation throughout the app.
 @type {import('./components/Header.vue').default}*/
 Header
+},
+components: {
+  Ratings
 }
 };
 </script>

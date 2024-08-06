@@ -28,6 +28,9 @@
       </div>
     </div>
   </main>
+  <div class="bg-customBg min-h-screen">
+    <!-- Your content here -->
+  </div>
 </template>
 
 <script>
