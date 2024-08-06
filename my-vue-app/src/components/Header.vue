@@ -95,7 +95,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+//import { useRouter } from 'vue-router';
 
 const isNavbarHidden = ref(true);
 
