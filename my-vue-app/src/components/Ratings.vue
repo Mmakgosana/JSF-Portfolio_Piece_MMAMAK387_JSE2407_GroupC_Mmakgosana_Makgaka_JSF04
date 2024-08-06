@@ -1,3 +1,4 @@
+<!-- StarRating.vue -->
 <template>
   <div class="flex items-left -ml-2 mb-2">
     <template v-for="(item, index) in yellowStars" :key="'yellow-' + index">
@@ -34,10 +35,6 @@ export default {
   name: 'StarRating',
   props: {
     rate: {
-      type: Number,
-      required: true,
-    },
-    count: {
       type: Number,
       required: true,
     },

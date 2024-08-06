@@ -1,18 +1,18 @@
 App.vue
 <template>
-  <div>
+
     <!-- Render the Header component -->
     <Header />
 
-    <div id="app">
-    <StarRating :rate="3.5" :count="5" />
-  </div>
+
+    <StarRating  />
+
 
     <!-- Render the content for the current route -->
   <router-view></router-view>
 
   
-  </div>
+
 </template>
 
 <script>
@@ -38,10 +38,9 @@ export default {
      
 The Header component used for navigation throughout the app.
 @type {import('./components/Header.vue').default}*/
-Header
+Header,
+Ratings
 },
-components: {
-  Ratings
-}
+
 };
 </script>
