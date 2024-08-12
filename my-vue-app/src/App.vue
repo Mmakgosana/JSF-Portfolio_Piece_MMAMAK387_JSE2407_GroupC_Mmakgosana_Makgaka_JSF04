@@ -5,9 +5,6 @@
   <!-- Render the StarRating component -->
   <StarRating />
 
-  <!-- Render the Login component -->
-  <Login />
-
   <!-- Render the content for the current route -->
   <router-view></router-view>
 </template>
