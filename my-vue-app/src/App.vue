@@ -5,6 +5,8 @@
   <!-- Render the StarRating component -->
   <StarRating />
 
+
+
   <!-- Render the content for the current route -->
   <router-view></router-view>
 </template>

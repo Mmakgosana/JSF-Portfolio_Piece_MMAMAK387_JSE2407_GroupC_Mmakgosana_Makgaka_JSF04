@@ -86,7 +86,13 @@
                 Login
               </router-link>
             </li>
+
           </ul>
+          <div v-if="isLoggedIn">
+          <button @click="handleLogout" class="text-white hover:text-blue-200">
+            Logout
+          </button>
+        </div>
         </div>
       </div>
     </nav>
