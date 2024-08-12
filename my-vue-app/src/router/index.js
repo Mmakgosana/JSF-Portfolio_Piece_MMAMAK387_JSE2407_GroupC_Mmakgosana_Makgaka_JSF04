@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 // import About from '../views/ProductDetails.vue';
 import ProductDetails from '../views/ProductDetails.vue';
 
+
 const routes = [
   {
     path: '/',

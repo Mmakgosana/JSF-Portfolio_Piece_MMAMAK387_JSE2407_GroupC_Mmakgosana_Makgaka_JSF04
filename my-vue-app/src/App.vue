@@ -1,34 +1,32 @@
-App.vue
 <template>
+  <!-- Render the Header component -->
+  <Header />
 
-    <!-- Render the Header component -->
-    <Header />
+  <!-- Render the StarRating component -->
+  <StarRating />
 
+  <!-- Render the Login component -->
+  <Login />
 
-    <StarRating  />
-
-
-    <!-- Render the content for the current route -->
+  <!-- Render the content for the current route -->
   <router-view></router-view>
-
-  
-
 </template>
 
 <script>
-/** 
+/**
  
 @fileoverview This is the main layout component for the application.
-It includes a Header and a router-view for rendering matched components based on the current route.
+It includes a Header, Login, and a router-view for rendering matched components based on the current route.
 */
 
 import Header from './components/Header.vue';
-import Ratings from './components/Ratings.vue'
+import Ratings from './components/Ratings.vue';
+import Login from './components/Login.vue'
 
 /** 
  
 Main layout component for the application.
-It includes the Header component and the router-view.
+It includes the Header, Login, and router-view components.
 *
 @component
 */
@@ -38,9 +36,9 @@ export default {
      
 The Header component used for navigation throughout the app.
 @type {import('./components/Header.vue').default}*/
-Header,
-Ratings
-},
-
+    Header,
+    Ratings,
+    Login
+  },
 };
 </script>
