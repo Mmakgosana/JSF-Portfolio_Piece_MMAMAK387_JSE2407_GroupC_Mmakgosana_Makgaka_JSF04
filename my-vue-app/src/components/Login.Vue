@@ -23,13 +23,15 @@
             v-model="password"
             placeholder="Enter your password"
             required
-            class="w-full px-3 py-2 border rounded"
+            class="w-full px-3 py-2 border rounded pr-10"
           />
           <button 
             type="button" 
             @click="togglePasswordVisibility"
             class="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-600"
           >
+          <span v-if="isPasswordVisible">🙈</span>
+          <span v-else>👁️</span>
             {{ isPasswordVisible ? 'Hide' : 'Show' }}
           </button>
         </div>
@@ -93,11 +95,13 @@ export default {
 
         if (response.ok) {
           console.log('Login successful:', data);
+          localStorage.setItem('userToken', data.token);
           router.push('/');
         } else {
           errorMessage.value = 'Login failed. Please check your credentials.';
         }
       } catch (error) {
+        console.error('Login error:', error);
         errorMessage.value = 'An error occurred. Please try again.';
       } finally {
         loading.value = false;
