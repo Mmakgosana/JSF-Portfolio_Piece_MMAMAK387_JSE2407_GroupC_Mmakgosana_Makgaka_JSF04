@@ -78,7 +78,7 @@
                 Cart
               </router-link>
             </li>
-            <li>
+            <li v-if="!isLoggedIn">
               <router-link
                 to="/login"
                 class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
@@ -86,13 +86,12 @@
                 Login
               </router-link>
             </li>
-
+            <li v-if="isLoggedIn">
+              <button @click="handleLogout" class="text-white hover:text-blue-200">
+                Logout
+              </button>
+            </li>
           </ul>
-          <div v-if="isLoggedIn">
-          <button @click="handleLogout" class="text-white hover:text-blue-200">
-            Logout
-          </button>
-        </div>
         </div>
       </div>
     </nav>
@@ -101,12 +100,21 @@
 
 <script setup>
 import { ref } from 'vue';
-//import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 const isNavbarHidden = ref(true);
+const isLoggedIn = ref(!!localStorage.getItem('userToken'));
+const router = useRouter();
 
 const toggleNavbar = () => {
   isNavbarHidden.value = !isNavbarHidden.value;
+};
+
+const handleLogout = () => {
+  localStorage.removeItem('userToken');
+  localStorage.removeItem('username');
+  isLoggedIn.value = false;
+  router.push('/login');
 };
 </script>
 
