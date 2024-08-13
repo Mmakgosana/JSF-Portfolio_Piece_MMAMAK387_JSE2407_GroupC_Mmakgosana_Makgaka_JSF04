@@ -99,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const isNavbarHidden = ref(true);
@@ -110,12 +110,30 @@ const toggleNavbar = () => {
   isNavbarHidden.value = !isNavbarHidden.value;
 };
 
+const handleLogin = async () => {
+  // Perform login logic here
+  // If login is successful:
+  localStorage.setItem('userToken', 'your_token_here');
+  isLoggedIn.value = true;
+  router.push('/'); // Redirect after login
+  // Force a reactivity update
+  isLoggedIn.value = !!localStorage.getItem('userToken');
+};
+
 const handleLogout = () => {
   localStorage.removeItem('userToken');
-  localStorage.removeItem('username');
   isLoggedIn.value = false;
   router.push('/login');
 };
+
+// Watch for changes in localStorage and update isLoggedIn state
+watch(() => localStorage.getItem('userToken'), (newVal) => {
+  isLoggedIn.value = !!newVal;
+});
+
+onMounted(() => {
+  isLoggedIn.value = !!localStorage.getItem('userToken');
+});
 </script>
 
 <style scoped>
