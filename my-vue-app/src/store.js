@@ -1,12 +1,12 @@
-// src/store/cart.js
+// store.js
 import { ref, computed } from 'vue';
 import { getUserId } from './auth';
 
 const cart = ref({});
 
 export function useCart() {
-  const addToCart = (product) => {
-    const userId = getUserId();
+  const addToCart = async (product) => {
+    const userId = await getUserId();
     if (!userId) return;
 
     if (!cart.value[userId]) {
@@ -21,20 +21,21 @@ export function useCart() {
     }
   };
 
-  const removeFromCart = (productId) => {
-    const userId = getUserId();
+  const removeFromCart = async (productId) => {
+    const userId = await getUserId();
     if (!userId || !cart.value[userId]) return;
 
     cart.value[userId] = cart.value[userId].filter(item => item.id !== productId);
   };
 
-  const cartItems = computed(() => {
-    const userId = getUserId();
+  const cartItems = computed(async () => {
+    const userId = await getUserId();
     return userId ? cart.value[userId] || [] : [];
   });
 
-  const cartTotal = computed(() => {
-    return cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0);
+  const cartTotal = computed(async () => {
+    const items = await cartItems.value;
+    return items.reduce((total, item) => total + item.price * item.quantity, 0);
   });
 
   return {

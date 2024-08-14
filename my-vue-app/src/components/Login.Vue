@@ -59,6 +59,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { setToken } from '../auth';
 
 
 export default {
@@ -69,6 +70,8 @@ export default {
     const isPasswordVisible = ref(false);
     const loading = ref(false);
     const errorMessage = ref(null);
+
+    
 
     const togglePasswordVisibility = () => {
       isPasswordVisible.value = !isPasswordVisible.value;

@@ -99,8 +99,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
+
 
 const isNavbarHidden = ref(true);
 const isLoggedIn = ref(!!localStorage.getItem('userToken'));

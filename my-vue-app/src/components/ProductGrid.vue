@@ -26,23 +26,20 @@
             </svg>
           </button>
           <!-- Add to cart button -->
-          <button @click="addToCart(product)" class="bg-purple-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
-             Add To Cart +
+          <button @click="handleAddToCart(product)" class="bg-purple-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
+            Add To Cart +
           </button>
-          
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import StarRating from './Ratings.vue';
 import { useCart } from '../store';
 import { isLoggedIn } from '../auth';
-
 
 export default {
   name: 'ProductGrid',
@@ -56,12 +53,20 @@ export default {
     }
   },
   setup() {
-    const { addToCart } = useCart();
+    const { addToCart, cartItems, cartTotal } = useCart();
+    const currentCartItems = ref([]);
+    const currentCartTotal = ref(0);
     const favorites = ref([]);
 
-    const handleAddToCart = (product) => {
-      if (isLoggedIn()) {
-        addToCart(product);
+    onMounted(async () => {
+      currentCartItems.value = await cartItems.value;
+      currentCartTotal.value = await cartTotal.value;
+    });
+
+    const handleAddToCart = async (product) => {
+      if (await isLoggedIn()) {
+        await addToCart(product);
+        alert(`"${product.title}" has been added to your cart!`);
         // You can add a notification here to inform the user that the product was added
       } else {
         // Redirect to login or show a message
@@ -89,10 +94,6 @@ export default {
       handleAddToCart,
     };
   }
-
-  
-
-  
 };
 </script>
 
