@@ -20,7 +20,8 @@ It includes a Header, Login, and a router-view for rendering matched components 
 
 import Header from './components/Header.vue';
 import Ratings from './components/Ratings.vue';
-import Login from './components/Login.vue'
+import Login from './components/Login.vue';
+import { watch } from 'vue';
 
 /** 
  
@@ -40,4 +41,5 @@ The Header component used for navigation throughout the app.
     Login
   },
 };
+
 </script>

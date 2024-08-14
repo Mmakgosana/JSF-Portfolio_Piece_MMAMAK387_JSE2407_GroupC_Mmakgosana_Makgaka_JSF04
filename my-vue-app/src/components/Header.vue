@@ -87,11 +87,6 @@
               </router-link>
             </li>
             <li v-if="isLoggedIn">
-              <router-link
-                to="/Logout"
-                class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
-
-              </router-link>
               <button @click="handleLogout" class="text-white hover:text-blue-200">
                 Logout
               </button>
@@ -99,18 +94,13 @@
           </ul>
         </div>
       </div>
-      <div class="flex items-center">
-        <ThemeToggle />
-        <!-- ... other header items ... -->
-      </div>
-    </nav>  
+    </nav>
   </header>
 </template>
 
 <script setup>
-import { ref, onMounted, watch, nextTick } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import ThemeToggle from './ThemeToggle.vue';
 
 const isNavbarHidden = ref(true);
 const isLoggedIn = ref(!!localStorage.getItem('userToken'));
@@ -121,34 +111,27 @@ const toggleNavbar = () => {
 };
 
 const handleLogin = async () => {
-  console.log('Logging in...');
+  // Perform login logic here
+  // If login is successful:
   localStorage.setItem('userToken', 'your_token_here');
-  isLoggedIn.value = true; // Update state immediately
-  await nextTick(); // Ensure the DOM is updated
-  console.log('Redirecting to home...');
+  isLoggedIn.value = true;
   router.push('/'); // Redirect after login
+  // Force a reactivity update
+  isLoggedIn.value = !!localStorage.getItem('userToken');
 };
 
-const handleLogout = async () => {
-  console.log('Logging out...');
+const handleLogout = () => {
   localStorage.removeItem('userToken');
-  isLoggedIn.value = false; // Update state immediately
-  await nextTick(); // Ensure the DOM is updated
-  console.log('Redirecting to login...');
+  isLoggedIn.value = false;
   router.push('/login');
 };
 
 // Watch for changes in localStorage and update isLoggedIn state
-watch(
-  () => localStorage.getItem('userToken'),
-  (newVal) => {
-    console.log('LocalStorage changed:', newVal);
-    isLoggedIn.value = !!newVal;
-  }
-);
+watch(() => localStorage.getItem('userToken'), (newVal) => {
+  isLoggedIn.value = !!newVal;
+});
 
 onMounted(() => {
-  console.log('Checking initial login state...');
   isLoggedIn.value = !!localStorage.getItem('userToken');
 });
 </script>

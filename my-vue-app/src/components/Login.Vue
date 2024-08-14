@@ -92,12 +92,16 @@ export default {
           }),
         });
 
+    
+
         const data = await response.json();
 
         if (response.ok) {
           console.log('Login successful:', data);
           localStorage.setItem('userToken', data.token);
-          router.push('/');
+          router.push('/').then(() => {
+            window.location.reload();
+          });
         } else {
           errorMessage.value = 'Login failed. Please check your credentials.';
         }

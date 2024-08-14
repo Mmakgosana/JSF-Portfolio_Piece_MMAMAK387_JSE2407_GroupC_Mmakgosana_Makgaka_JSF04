@@ -26,18 +26,23 @@
             </svg>
           </button>
           <!-- Add to cart button -->
-          <button class="bg-purple-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
-            Add To Cart +
+          <button @click="addToCart(product)" class="bg-purple-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
+             Add To Cart +
           </button>
+          
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 import { ref } from 'vue';
-import StarRating from './Ratings.vue'; 
+import StarRating from './Ratings.vue';
+import { useCart } from '../store';
+import { isLoggedIn } from '../auth';
+
 
 export default {
   name: 'ProductGrid',
@@ -51,7 +56,18 @@ export default {
     }
   },
   setup() {
+    const { addToCart } = useCart();
     const favorites = ref([]);
+
+    const handleAddToCart = (product) => {
+      if (isLoggedIn()) {
+        addToCart(product);
+        // You can add a notification here to inform the user that the product was added
+      } else {
+        // Redirect to login or show a message
+        alert('Please log in to add items to your cart');
+      }
+    };
 
     const toggleFavorite = (productId) => {
       const index = favorites.value.indexOf(productId);
@@ -69,9 +85,14 @@ export default {
 
     return {
       toggleFavorite,
-      isFavorite
+      isFavorite,
+      handleAddToCart,
     };
   }
+
+  
+
+  
 };
 </script>
 

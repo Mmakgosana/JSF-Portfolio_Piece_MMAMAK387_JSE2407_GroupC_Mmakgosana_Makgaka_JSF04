@@ -25,6 +25,12 @@
         </div>
         <!-- <p class="mt-2 text-gray-700 mb-3">⭐ {{ product.rating?.rate }}</p> -->
         <!-- <p class="mt-1 text-gray-700 mb-3">Reviews: {{ product.rating?.count }}</p> -->
+        <div class="card-container bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden border dark:border-gray-700 p-4 cursor-pointer hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+    
+    <h3 class="text-lg font-bold mb-2 dark:text-white">{{ product.title }}</h3>
+    <p class="text-gray-700 dark:text-gray-300 mb-2">${{ product.price }}</p>
+    
+  </div>
       </div>
     </div>
   </main>

@@ -1,50 +1,46 @@
 // src/store/cart.js
-import { reactive } from 'vue';
+import { ref, computed } from 'vue';
+import { getUserId } from './auth';
 
-const state = reactive({
-  items: [],
-});
+const cart = ref({});
 
-export const useCart = () => {
+export function useCart() {
   const addToCart = (product) => {
-    const existingItem = state.items.find(item => item.id === product.id);
-    if (existingItem) {
-      existingItem.quantity++;
-    } else {
-      state.items.push({ ...product, quantity: 1 });
+    const userId = getUserId();
+    if (!userId) return;
+
+    if (!cart.value[userId]) {
+      cart.value[userId] = [];
     }
-    saveCartToLocalStorage();
+    
+    const existingItem = cart.value[userId].find(item => item.id === product.id);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.value[userId].push({ ...product, quantity: 1 });
+    }
   };
 
   const removeFromCart = (productId) => {
-    const index = state.items.findIndex(item => item.id === productId);
-    if (index !== -1) {
-      state.items.splice(index, 1);
-      saveCartToLocalStorage();
-    }
+    const userId = getUserId();
+    if (!userId || !cart.value[userId]) return;
+
+    cart.value[userId] = cart.value[userId].filter(item => item.id !== productId);
   };
 
-  const clearCart = () => {
-    state.items = [];
-    saveCartToLocalStorage();
-  };
+  const cartItems = computed(() => {
+    const userId = getUserId();
+    return userId ? cart.value[userId] || [] : [];
+  });
 
-  const saveCartToLocalStorage = () => {
-    localStorage.setItem('cart', JSON.stringify(state.items));
-  };
-
-  const loadCartFromLocalStorage = () => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      state.items = JSON.parse(savedCart);
-    }
-  };
+  const cartTotal = computed(() => {
+    return cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0);
+  });
 
   return {
-    items: state.items,
     addToCart,
     removeFromCart,
-    clearCart,
-    loadCartFromLocalStorage,
+    cartItems,
+    cartTotal,
   };
-};
+}
