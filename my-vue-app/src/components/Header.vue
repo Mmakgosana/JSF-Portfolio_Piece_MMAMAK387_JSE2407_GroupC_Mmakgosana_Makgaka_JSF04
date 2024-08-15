@@ -89,7 +89,7 @@
               </router-link>
             </li>
             <li v-if="isLoggedIn">
-              <button @click="handleLogout" class="text-white hover:text-blue-200">
+              <button @click="handleLogout" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
                 Logout
               </button>
             </li>

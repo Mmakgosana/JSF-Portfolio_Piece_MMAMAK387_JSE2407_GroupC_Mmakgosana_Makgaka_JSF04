@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import StarRating from './Ratings.vue';
 import { useCart } from '../store';
 import { isLoggedIn } from '../auth';
@@ -49,27 +49,18 @@ export default {
   props: {
     products: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   setup() {
-    const { addToCart, cartItems, cartTotal } = useCart();
-    const currentCartItems = ref([]);
-    const currentCartTotal = ref(0);
+    const { addToCart } = useCart();
     const favorites = ref([]);
 
-    onMounted(async () => {
-      currentCartItems.value = await cartItems.value;
-      currentCartTotal.value = await cartTotal.value;
-    });
-
-    const handleAddToCart = async (product) => {
-      if (await isLoggedIn()) {
-        await addToCart(product);
-        alert(`"${product.title}" has been added to your cart!`);
-        // You can add a notification here to inform the user that the product was added
+    const handleAddToCart = (product) => {
+      if (isLoggedIn()) {
+        addToCart(product);
+        alert(`Added ${product.title} to the cart!`);
       } else {
-        // Redirect to login or show a message
         alert('Please log in to add items to your cart');
       }
     };
@@ -93,7 +84,7 @@ export default {
       isFavorite,
       handleAddToCart,
     };
-  }
+  },
 };
 </script>
 
