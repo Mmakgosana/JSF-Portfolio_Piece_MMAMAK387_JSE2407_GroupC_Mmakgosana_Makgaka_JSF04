@@ -1,6 +1,7 @@
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 
 const cartItems = ref([]);
+const cartTotal = ref(0);
 
 export function useCart() {
   const addToCart = (product) => {
@@ -10,15 +11,16 @@ export function useCart() {
     } else {
       cartItems.value.push({ ...product, quantity: 1 });
     }
+    updateCartTotal();
   };
 
-  const cartTotal = computed(() =>
-    cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
-  );
+  const updateCartTotal = () => {
+    cartTotal.value = cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  };
 
   return {
     cartItems,
-    addToCart,
     cartTotal,
+    addToCart,
   };
 }
