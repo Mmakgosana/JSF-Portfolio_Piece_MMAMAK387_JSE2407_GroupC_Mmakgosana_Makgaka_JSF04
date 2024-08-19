@@ -53,7 +53,7 @@
               <router-link to="/cart">
                 <div class="t-0 absolute left-3 -top-4">
                   <p class="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
-                    2
+                    {{ totalItems }}
                   </p>
                 </div>
                 <svg
@@ -103,16 +103,19 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useCart } from '../CartStore';
 
 const isNavbarHidden = ref(true);
 const isLoggedIn = ref(!!localStorage.getItem('userToken'));
 const router = useRouter();
+const cartStore = useCart();
 
 const toggleNavbar = () => {
   isNavbarHidden.value = !isNavbarHidden.value;
 };
 
 const handleLogout = () => {
+  cartStore.clearCart(); // Clear the cart on logout
   localStorage.removeItem('userToken');
   isLoggedIn.value = false;
   router.push('/login');
@@ -125,6 +128,8 @@ watch(() => localStorage.getItem('userToken'), (newVal) => {
 onMounted(() => {
   isLoggedIn.value = !!localStorage.getItem('userToken');
 });
+
+const totalItems = computed(() => cartStore.totalItems);
 </script>
 
 <style scoped>
