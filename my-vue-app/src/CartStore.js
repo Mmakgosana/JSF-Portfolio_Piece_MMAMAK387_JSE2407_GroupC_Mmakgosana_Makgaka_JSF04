@@ -32,10 +32,10 @@ export function useCart() {
     }
   };
   const clearCart = () => {
-    cart.items = [];
-    localStorage.removeItem('cartItems'); // Clear the local storage as well
+    cart.items.splice(0, cart.items.length); // Clear the array reactively
+    localStorage.removeItem('cartItems'); // Clear the cart in local storage
   };
-
+  
   const saveCart = () => {
     localStorage.setItem('cartItems', JSON.stringify(cart.items));
   };
