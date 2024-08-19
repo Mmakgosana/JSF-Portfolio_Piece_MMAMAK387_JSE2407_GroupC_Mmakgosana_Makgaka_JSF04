@@ -3,7 +3,7 @@
   <Header />
 
   <!-- Render the StarRating component -->
-  <StarRating />
+  <!-- <Ratings /> -->
 
 
 

@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: 'StarRating',
+  name: 'Ratings',
   props: {
     rate: {
       type: Number,
@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     yellowStars() {
-      return Math.round(this.rate);
+      return Math.round(this.rate); // no rate
     },
     blankStars() {
       return 5 - this.yellowStars;

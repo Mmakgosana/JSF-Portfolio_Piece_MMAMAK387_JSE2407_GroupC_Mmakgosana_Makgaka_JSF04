@@ -38,7 +38,7 @@
 <script>
 import { ref } from 'vue';
 import StarRating from './Ratings.vue';
-import { useCart } from '../store';
+import { useCart, addToCart } from '../store';
 import { isLoggedIn } from '../auth';
 
 export default {
@@ -53,7 +53,7 @@ export default {
     },
   },
   setup() {
-    const { addToCart } = useCart();
+    const {cartItems, cartTotal, updateItemQuantity, removeItemFromCart} = useCart();
     const favorites = ref([]);
 
     const handleAddToCart = (product) => {
