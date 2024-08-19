@@ -21,7 +21,7 @@
             />
             <button @click="cartStore.removeFromCart(item.id)" class="remove-btn">Remove</button>
           </div>
-          <div class="item-total">${{ (item.price * item.quantity) }}</div>
+          <div class="item-total">${{ (item.price * item.quantity).toFixed(2) }}</div>
         </li>
       </ul>
       <div class="cart-summary">

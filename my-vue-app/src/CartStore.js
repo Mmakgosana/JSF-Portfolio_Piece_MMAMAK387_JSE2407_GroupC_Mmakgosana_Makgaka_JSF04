@@ -25,10 +25,12 @@ export function useCart() {
   };
 
   const removeFromCart = (id) => {
-    cart.items = cart.items.filter(item => item.id !== id);
-    saveCart();
+    const index = cart.items.findIndex(item => item.id === id);
+    if (index !== -1) {
+      cart.items.splice(index, 1); // This maintains reactivity
+      saveCart(); // Save the updated cart to local storage
+    }
   };
-
   const clearCart = () => {
     cart.items = [];
     localStorage.removeItem('cartItems'); // Clear the local storage as well
