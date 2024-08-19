@@ -44,8 +44,8 @@
   </template>
   
   <script>
-  import { useComparisonStore } from '@/stores/ComparisonStore';
-  import { useAuthStore } from '@/stores/AuthStore';
+  import { useComparisonStore } from '../ComparisonStore';
+  import { useAuthStore } from '../auth';
   
   export default {
     setup() {

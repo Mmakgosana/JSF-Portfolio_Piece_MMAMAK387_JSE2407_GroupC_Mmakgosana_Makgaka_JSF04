@@ -40,12 +40,12 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import StarRating from './Ratings.vue';
 import { useCart } from '../CartStore';
 import { isLoggedIn } from '../auth';
-import { useComparisonStore } from '@/stores/ComparisonStore';
-import { useAuthStore } from '@/stores/AuthStore';
+import { useComparisonStore } from '../ComparisonStore';
+import { useAuthStore } from '../auth';
 
 
 export default {

@@ -1,5 +1,20 @@
 
-//import jwtDecode from 'jwt-decode';
+import { defineStore } from 'pinia';
+
+export const useAuthStore = defineStore('auth', {
+  state: () => ({
+    isAuthenticated: false,
+    // Other state properties
+  }),
+  actions: {
+    login() {
+      this.isAuthenticated = true;
+    },
+    logout() {
+      this.isAuthenticated = false;
+    },
+  },
+});
 
 export const getToken = () => localStorage.getItem('userToken');
 

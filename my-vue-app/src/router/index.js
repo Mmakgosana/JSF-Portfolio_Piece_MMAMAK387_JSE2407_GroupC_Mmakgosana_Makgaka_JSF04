@@ -6,7 +6,7 @@ import Cart from '../components/Cart.vue';
 import ProductDetails from '../views/ProductDetails.vue';
 import Login from '../components/Login.vue';
 import { useCart } from '../CartStore';
-//import { useAuth } from '../auth';
+import { useAuthStore } from '../auth';
 
 
 // const { cartItems, cartTotal, updateItemQuantity, removeItemFromCart, clearCart } = useCart();
@@ -34,12 +34,27 @@ const routes = [
     name: 'Cart',
     component: Cart,
   },
+  {
+    path: '/comparison',
+    name: 'Comparison',
+    component: () => import('../ComparisonStore'),
+    meta: { requiresAuth: true }
+  }
   
 ];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 export default router;
