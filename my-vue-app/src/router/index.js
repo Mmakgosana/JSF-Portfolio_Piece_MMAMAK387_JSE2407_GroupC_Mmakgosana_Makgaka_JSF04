@@ -5,10 +5,10 @@ import Cart from '../components/Cart.vue';
 // import About from '../views/ProductDetails.vue';
 import ProductDetails from '../views/ProductDetails.vue';
 import Login from '../components/Login.vue';
-import { useCart } from '../store';
+import { useCart } from '../CartStore';
 
 
-const { cartItems, cartTotal, updateItemQuantity, removeItemFromCart, clearCart } = useCart();
+// const { cartItems, cartTotal, updateItemQuantity, removeItemFromCart, clearCart } = useCart();
 
 
 const routes = [

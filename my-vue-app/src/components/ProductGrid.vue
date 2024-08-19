@@ -38,7 +38,7 @@
 <script>
 import { ref } from 'vue';
 import StarRating from './Ratings.vue';
-import { useCart, addToCart } from '../store';
+import { useCart } from '../CartStore';
 import { isLoggedIn } from '../auth';
 
 export default {
@@ -53,12 +53,12 @@ export default {
     },
   },
   setup() {
-    const {cartItems, cartTotal, updateItemQuantity, removeItemFromCart} = useCart();
+    const cartStore = useCart(); // Get the store instance
     const favorites = ref([]);
 
     const handleAddToCart = (product) => {
       if (isLoggedIn()) {
-        addToCart(product);
+        cartStore.addToCart(product); // Call the action from the store instance
         alert(`Added ${product.title} to the cart!`);
       } else {
         alert('Please log in to add items to your cart');
@@ -86,6 +86,8 @@ export default {
     };
   },
 };
+
+
 </script>
 
 <style scoped>
