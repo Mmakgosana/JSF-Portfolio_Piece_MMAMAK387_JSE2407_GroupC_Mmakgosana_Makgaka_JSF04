@@ -29,9 +29,7 @@
           <button @click="handleAddToCart(product)" class="bg-purple-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
             Add To Cart +
           </button>
-          <button @click="addToComparison" :disabled="isInComparison">
-            {{ isInComparison ? 'In Comparison' : 'Add to Compare' }}
-          </button>
+          
         </div>
       </div>
     </div>

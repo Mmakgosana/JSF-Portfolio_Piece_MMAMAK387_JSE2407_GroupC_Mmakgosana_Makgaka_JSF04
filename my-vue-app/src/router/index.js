@@ -6,6 +6,7 @@ import Cart from '../components/Cart.vue';
 import ProductDetails from '../views/ProductDetails.vue';
 import Login from '../components/Login.vue';
 import { useCart } from '../CartStore';
+//import { useAuth } from '../auth';
 
 
 // const { cartItems, cartTotal, updateItemQuantity, removeItemFromCart, clearCart } = useCart();
