@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router'; // If using Vue Router
-//import Toaster from "@meforma/vue-toaster";
+
 
 const app = createApp(App);
 const pinia = createPinia();
