@@ -41,6 +41,9 @@
           <div class="item-actions">
             <button @click="removeItem(item.id)" class="remove-btn">Remove</button>
             <button @click="addToCart(item)" class="add-to-cart-btn">Add to Cart</button>
+            <button @click="viewProductDetails(item.id)" class="view-details-btn">
+              View Details
+            </button>
           </div>
         </li>
       </ul>
@@ -49,10 +52,13 @@
     <div v-else>
       <p>Your wishlist is empty.</p>
     </div>
+
+
   </div>
   <div v-else>
     <p>Please log in to view your wishlist.</p>
   </div>
+  <router-view></router-view>
 </template>
 
 <script>
@@ -60,12 +66,14 @@ import { ref, computed } from 'vue';
 import { useWishlistStore } from '../WishlistStore';
 import { useAuthStore } from '../auth';
 import { useCart } from '../CartStore';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const wishlistStore = useWishlistStore();
     const authStore = useAuthStore();
     const cartStore = useCart();
+    const router = useRouter();
 
     const searchQuery = ref('');
     const selectedCategory = ref('');
@@ -75,6 +83,7 @@ export default {
     const removeItem = (itemId) => {
       wishlistStore.removeFromWishlist(itemId);
     };
+    
 
     const clearWishlist = () => {
       wishlistStore.clearWishlist();
@@ -113,6 +122,10 @@ export default {
       return items;
     });
 
+    const viewProductDetails = (itemId) => {
+      router.push(`/product/${itemId}`);
+    };
+
     const fetchCategories = async () => {
       const response = await fetch('https://fakestoreapi.com/products/categories');
       const data = await response.json();
@@ -134,6 +147,7 @@ export default {
       categories,
       searchProducts,
       filteredItems,
+      viewProductDetails,
     };
   },
 };

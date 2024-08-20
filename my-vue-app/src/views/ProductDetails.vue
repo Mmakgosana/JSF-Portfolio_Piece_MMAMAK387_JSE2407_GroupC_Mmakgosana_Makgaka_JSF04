@@ -31,6 +31,12 @@
     <p class="text-gray-700 dark:text-gray-300 mb-2">${{ product.price }}</p>
     
   </div>
+  <div class="product-actions">
+          <button @click="addToCart" class="add-to-cart-btn">Add to Cart</button>
+          <button @click="addToWishlist" class="add-to-wishlist-btn">
+            Add to Wishlist
+          </button>
+        </div>
       </div>
     </div>
   </main>
@@ -41,6 +47,9 @@
 
 <script>
 import { ref, onMounted } from 'vue';
+import { useWishlistStore } from '../WishlistStore';
+import { useRouter, useRoute } from 'vue-router';
+import { useCart } from '../CartStore';
 
 /**
  * @fileoverview This component fetches and displays the details of a single product based on its ID.
@@ -112,11 +121,33 @@ export default {
       loading.value = false;
     });
 
+    const router = useRouter();
+    const route = useRoute();
+    const wishlistStore = useWishlistStore();
+    const cartStore = useCart();
+
+    
+
+    //const product = wishlistStore.items.find(
+      //(item) => item.id === parseInt(route.params.id)
+    //);
+
+    const addToCart = () => {
+      cartStore.addToCart(product);
+      router.push('/cart');
+    };
+
+    const addToWishlist = () => {
+      wishlistStore.addToWishlist(product);
+    };
+
     return {
       product,
       error,
-      loading
+      loading,
+      addToCart,
+      addToWishlist,
     };
-  }
+  },
 };
 </script>
