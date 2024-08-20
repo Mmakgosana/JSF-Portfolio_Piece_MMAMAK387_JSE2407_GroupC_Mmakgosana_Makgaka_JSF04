@@ -33,4 +33,6 @@ export const useComparisonStore = defineStore('comparison', {
       this.items = [];
     },
   },
+
+  
 });

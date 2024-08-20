@@ -1,11 +1,13 @@
 // CartStore.js
-import { ref, reactive, computed } from 'vue';
+import { reactive, computed } from 'vue';
 
 export function useCart() {
+  // Initialize cart with items from local storage or an empty array
   const cart = reactive({
     items: JSON.parse(localStorage.getItem('cartItems')) || [],
   });
 
+  // Add a product to the cart
   const addToCart = (product) => {
     const existingItem = cart.items.find(item => item.id === product.id);
     if (existingItem) {
@@ -16,6 +18,7 @@ export function useCart() {
     saveCart();
   };
 
+  // Update the quantity of an item in the cart
   const updateCart = (id, quantity) => {
     const item = cart.items.find(item => item.id === id);
     if (item) {
@@ -24,22 +27,27 @@ export function useCart() {
     }
   };
 
+  // Remove an item from the cart
   const removeFromCart = (id) => {
     const index = cart.items.findIndex(item => item.id === id);
     if (index !== -1) {
-      cart.items.splice(index, 1); // This maintains reactivity
-      saveCart(); // Save the updated cart to local storage
+      cart.items.splice(index, 1); // Maintains reactivity
+      saveCart();
     }
   };
+
+  // Clear all items from the cart
   const clearCart = () => {
-    cart.items.splice(0, cart.items.length); // Clear the array reactively
-    localStorage.removeItem('cartItems'); // Clear the cart in local storage
+    cart.items.splice(0, cart.items.length); // Clear reactively
+    localStorage.removeItem('cartItems'); // Clear from local storage
   };
-  
+
+  // Save the current cart state to local storage
   const saveCart = () => {
     localStorage.setItem('cartItems', JSON.stringify(cart.items));
   };
 
+  // Computed properties for total items and total cost
   const totalItems = computed(() => cart.items.reduce((acc, item) => acc + item.quantity, 0));
   const totalCost = computed(() => cart.items.reduce((acc, item) => acc + item.price * item.quantity, 0));
 

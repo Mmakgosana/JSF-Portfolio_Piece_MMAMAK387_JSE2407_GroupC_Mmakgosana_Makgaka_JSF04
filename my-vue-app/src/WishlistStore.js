@@ -1,6 +1,7 @@
 // src/stores/WishlistStore.js
 import { defineStore } from 'pinia';
 
+
 export const useWishlistStore = defineStore('wishlist', {
   state: () => ({
     items: [],

@@ -57,6 +57,7 @@
 <script>
 import { useComparisonStore } from '../ComparisonStore';
 import { useAuthStore } from '../auth';
+//import { cart } from '../CartStore'
 
 export default {
   setup() {
