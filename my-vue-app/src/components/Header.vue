@@ -41,14 +41,32 @@
           id="navbar-dropdown"
         >
           <ul class="flex flex-col top-10 font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-500 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-            <li>
+            <li class="hidden lg:block md:block relative">
               <router-link
-                to="/wishlist"
-                class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
-              >
-                <i class="fas fa-heart"></i>
-              </router-link>
-            </li>
+                to="/wishlist">
+                <div class="t-0 absolute left-3 -top-4">
+                  <p class="flex h-6 w-6 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white"
+                  >
+                  {{ wishlistItemCount }}
+                </p>
+                </div>
+                <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="file:h-6 w-6 stroke-white cursor-pointer"
+      >
+      <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+        />
+      </svg>
+    </router-link>
+  </li>
+                
             <li class="hidden lg:block md:block relative">
               <router-link to="/cart">
                 <div class="t-0 absolute left-3 -top-4">
@@ -115,11 +133,17 @@
 import { ref, onMounted, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCart } from '../CartStore';
+import { useWishlistStore } from '../WishlistStore';
+
 
 const isNavbarHidden = ref(true);
 const isLoggedIn = ref(!!localStorage.getItem('userToken'));
 const router = useRouter();
 const cartStore = useCart();
+const wishlistStore = useWishlistStore();
+
+const wishlistItemCount = computed(() => wishlistStore.items.length);
+
 
 const toggleNavbar = () => {
   isNavbarHidden.value = !isNavbarHidden.value;
