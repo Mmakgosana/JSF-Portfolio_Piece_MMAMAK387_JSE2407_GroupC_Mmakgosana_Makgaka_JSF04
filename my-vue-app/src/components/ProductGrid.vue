@@ -65,7 +65,7 @@ export default {
     const comparisonStore = useComparisonStore();
     const authStore = useAuthStore();
 
-    const addToComparison = () => {
+    const addToComparison = (product) => {
       if (authStore.isAuthenticated) {
         comparisonStore.addToComparison(props.product);
       } else {

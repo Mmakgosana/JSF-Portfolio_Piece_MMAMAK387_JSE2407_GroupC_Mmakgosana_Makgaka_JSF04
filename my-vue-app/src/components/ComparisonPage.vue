@@ -38,6 +38,8 @@
       <p v-else>No items in comparison list.</p>
       <button @click="clearComparison">Clear Comparison</button>
     </div>
+    
+
     <div v-else>
       <p>Please log in to access the comparison page.</p>
     </div>

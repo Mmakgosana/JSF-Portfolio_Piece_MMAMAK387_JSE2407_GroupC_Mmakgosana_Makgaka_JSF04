@@ -7,6 +7,7 @@ import ProductDetails from '../views/ProductDetails.vue';
 import Login from '../components/Login.vue';
 import { useCart } from '../CartStore';
 import { useAuthStore } from '../auth';
+import ComparisonPage from '../components/ComparisonPage.vue';
 
 
 // const { cartItems, cartTotal, updateItemQuantity, removeItemFromCart, clearCart } = useCart();
@@ -37,9 +38,9 @@ const routes = [
   {
     path: '/comparison',
     name: 'Comparison',
-    component: () => import('../ComparisonStore'),
-    meta: { requiresAuth: true }
-  }
+    component: () => import('../components/ComparisonPage.vue'),
+    meta: { requiresAuth: true },
+  },
   
 ];
 
