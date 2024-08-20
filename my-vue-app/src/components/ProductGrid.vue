@@ -64,14 +64,14 @@ export default {
 
     const addToComparison = (product) => {
       if (authStore.isAuthenticated) {
-        if (!isInComparison(product.id)) {
-          comparisonStore.addToComparison(product);
-          alert(`Added ${product.title} to comparison!`);
-        } else {
-          alert(`${product.title} is already in comparison.`);
+        if (comparisonStore.items.length >= 4) {
+          alert('You can only compare up to 4 items.');
+          return;
         }
+        comparisonStore.addToComparison(product);
+        alert(`${product.title} has been added to the comparison list.`);
       } else {
-        alert('Please log in to add items to comparison.');
+        alert('Please log in to add items to your comparison list.');
       }
     };
 
