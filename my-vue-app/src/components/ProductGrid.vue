@@ -29,10 +29,9 @@
           <button @click="handleAddToCart(product)" class="bg-purple-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition duration-200">
             Add To Cart +
           </button>
-          <button @click="addToComparison" :disabled="isInComparison">
-            {{ isInComparison ? 'In Comparison' : 'Add to Compare' }}
+          <button @click="addToComparison(product)" :disabled="isInComparison(product.id)">
+            {{ isInComparison(product.id) ? 'In Comparison' : 'Add to Compare' }}
           </button>
-          
         </div>
       </div>
     </div>
@@ -43,10 +42,8 @@
 import { ref, computed } from 'vue';
 import StarRating from './Ratings.vue';
 import { useCart } from '../CartStore';
-import { isLoggedIn } from '../auth';
 import { useComparisonStore } from '../ComparisonStore';
 import { useAuthStore } from '../auth';
-
 
 export default {
   name: 'ProductGrid',
@@ -59,30 +56,34 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const cartStore = useCart(); // Get the store instance
-    const favorites = ref([]);
     const comparisonStore = useComparisonStore();
     const authStore = useAuthStore();
+    const favorites = ref([]);
 
     const addToComparison = (product) => {
       if (authStore.isAuthenticated) {
-        comparisonStore.addToComparison(props.product);
+        if (!isInComparison(product.id)) {
+          comparisonStore.addToComparison(product);
+          alert(`Added ${product.title} to comparison!`);
+        } else {
+          alert(`${product.title} is already in comparison.`);
+        }
       } else {
-        // Redirect to login or show login modal
+        alert('Please log in to add items to comparison.');
       }
     };
 
-    const isInComparison = computed(() => 
-      comparisonStore.items.some(item => item.id === props.product.id)
-    );
+    const isInComparison = (productId) => 
+      comparisonStore.items.some(item => item.id === productId);
 
     const handleAddToCart = (product) => {
-      if (isLoggedIn()) {
+      if (authStore.isAuthenticated) {
         cartStore.addToCart(product); // Call the action from the store instance
         alert(`Added ${product.title} to the cart!`);
       } else {
-        alert('Please log in to add items to your cart');
+        alert('Please log in to add items to your cart.');
       }
     };
 
@@ -109,8 +110,6 @@ export default {
     };
   },
 };
-
-
 </script>
 
 <style scoped>
