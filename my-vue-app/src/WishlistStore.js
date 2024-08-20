@@ -1,35 +1,39 @@
-import { reactive } from 'vue';
+// src/stores/WishlistStore.js
+import { defineStore } from 'pinia';
 
-const state = reactive({
-  items: JSON.parse(localStorage.getItem('wishlist')) || []
+export const useWishlistStore = defineStore('wishlist', {
+  state: () => ({
+    items: [],
+  }),
+  actions: {
+    addToWishlist(item) {
+      if (!this.items.find(i => i.id === item.id)) {
+        this.items.push(item);
+        this.saveToLocalStorage();
+      }
+    },
+    removeFromWishlist(itemId) {
+      this.items = this.items.filter(item => item.id !== itemId);
+      this.saveToLocalStorage();
+    },
+    clearWishlist() {
+      this.items = [];
+      this.saveToLocalStorage();
+    },
+    saveToLocalStorage() {
+      localStorage.setItem('wishlist', JSON.stringify(this.items));
+    },
+    loadFromLocalStorage() {
+      const storedData = localStorage.getItem('wishlist');
+      if (storedData) {
+        this.items = JSON.parse(storedData);
+      }
+    }
+  },
+  getters: {
+    wishlistCount() {
+      return this.items.length;
+    },
+  },
+  persist: true,
 });
-
-const addToWishlist = (item) => {
-  if (!state.items.find(i => i.id === item.id)) {
-    state.items.push(item);
-    saveToLocalStorage();
-  }
-};
-
-const removeFromWishlist = (itemId) => {
-  state.items = state.items.filter(item => item.id !== itemId);
-  saveToLocalStorage();
-};
-
-const clearWishlist = () => {
-  state.items = [];
-  saveToLocalStorage();
-};
-
-const saveToLocalStorage = () => {
-  localStorage.setItem('wishlist', JSON.stringify(state.items));
-};
-
-export function useWishlistStore() {
-  return {
-    items: state.items,
-    addToWishlist,
-    removeFromWishlist,
-    clearWishlist,
-  };
-}
