@@ -46,7 +46,7 @@
                 to="/wishlist"
                 class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
               >
-                Wishlist
+                <i class="fas fa-heart"></i>
               </router-link>
             </li>
             <li class="hidden lg:block md:block relative">
@@ -85,7 +85,7 @@
                 to="/comparison"
                 class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
               >
-                Compare
+                <i class="fas fa-balance-scale"></i>
               </router-link>
             </li>
             <li v-if="!isLoggedIn">
@@ -97,7 +97,10 @@
               </router-link>
             </li>
             <li v-if="isLoggedIn">
-              <button @click="handleLogout" class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">
+              <button
+                @click="handleLogout"
+                class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+              >
                 Logout
               </button>
             </li>
@@ -112,7 +115,6 @@
 import { ref, onMounted, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCart } from '../CartStore';
-//import { useAuth } from '../auth';
 
 const isNavbarHidden = ref(true);
 const isLoggedIn = ref(!!localStorage.getItem('userToken'));
@@ -139,7 +141,6 @@ onMounted(() => {
 });
 
 const totalItems = computed(() => cartStore.totalItems);
-
 </script>
 
 <style scoped>
