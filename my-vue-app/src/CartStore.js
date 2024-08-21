@@ -1,5 +1,29 @@
 // CartStore.js
 import { reactive, computed } from 'vue';
+import { defineStore } from 'pinia';
+import { onMounted } from 'vue';
+import { loadFromLocalStorage } from './localStorageUtils';
+
+export const useCartStore = defineStore('cart', {
+  state: () => ({
+    cartItems: [],
+  }),
+  actions: {
+    addToCart(item) {
+      this.cartItems.push(item);
+    },
+    removeFromCart(itemId) {
+      this.cartItems = this.cartItems.filter(item => item.id !== itemId);
+    },
+    clearCart() {
+      this.cartItems = [];
+    },
+  },
+  getters: {
+    totalItems: (state) => state.cartItems.length,
+    totalCost: (state) => state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+  },
+});
 
 export function useCart() {
   // Initialize cart with items from local storage or an empty array
@@ -51,6 +75,9 @@ export function useCart() {
   // Computed properties for total items and total cost
   const totalItems = computed(() => cart.items.reduce((acc, item) => acc + item.quantity, 0));
   const totalCost = computed(() => cart.items.reduce((acc, item) => acc + item.price * item.quantity, 0));
+  //onMounted (() => {
+    
+  //})
 
   return {
     cartItems: cart.items,

@@ -151,3 +151,36 @@ export default {
   },
 };
 </script>
+
+<style>
+/* Buttons */
+.remove-btn, .add-to-cart-btn, .add-to-wishlist-btn, .clear-wishlist-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+
+.add-to-cart-btn {
+  background-color: #38a169; /* Green color */
+}
+
+.add-to-cart-btn:hover {
+  background-color: #2f855a; /* Darker green */
+}
+
+.add-to-wishlist-btn {
+  background-color: #4a5568; /* Gray color */
+}
+
+.add-to-cart-btn:hover:hover {
+  background-color: #2d3748; /* Darker gray */
+}
+
+
+
+
+
+
+</style>

@@ -1,14 +1,14 @@
 <template>
   <div class="cart-container">
-    <h1>Your Shopping Cart</h1>
+    <h1 class="cart-title">Your Shopping Cart</h1>
     <div v-if="cartStore.cartItems.length > 0">
-      <ul>
+      <ul class="cart-list">
         <li v-for="item in cartStore.cartItems" :key="item.id" class="cart-item">
           <div class="item-details">
             <img :src="item.image" alt="Product Image" class="item-image" />
             <div class="item-info">
               <span class="item-name">{{ item.title }}</span>
-              <span class="item-price">${{ item.price.toFixed(2) }}</span>
+              <span class="item-price">${{ item.price }}</span>
             </div>
           </div>
           <div class="item-actions">
@@ -63,5 +63,126 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* Add any additional styles if necessary */
+/* Container for the cart */
+.cart-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Title styling */
+.cart-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* List of cart items */
+.cart-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 1rem 0;
+}
+
+/* Item details section */
+.item-details {
+  display: flex;
+  align-items: center;
+}
+
+.item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-right: 1rem;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-name {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.item-price {
+  color: #666;
+}
+
+/* Actions and total section */
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.quantity-input {
+  width: 60px;
+  padding: 0.25rem;
+  border: 1px solid #ddd;
+  border-radius: 0.375rem;
+}
+
+.remove-btn {
+  background-color: #e53e3e;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.remove-btn:hover {
+  background-color: #c53030;
+}
+
+.item-total {
+  font-weight: bold;
+  min-width: 100px;
+  text-align: right;
+}
+
+/* Summary section */
+.cart-summary {
+  margin-top: 1.5rem;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+}
+
+.clear-cart-btn {
+  background-color: #4a5568;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  display: block;
+  width: 100%;
+}
+
+.clear-cart-btn:hover {
+  background-color: #2d3748;
+}
+
+/* Empty cart section */
+.empty-cart {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.125rem;
+  color: #666;
+}
 </style>
