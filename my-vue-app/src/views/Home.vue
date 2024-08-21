@@ -1,5 +1,13 @@
 <template>
   
+  <div v-if="authStore.isAuthenticated">
+      <h2 class="text-2xl font-bold mb-4">Your Wishlist</h2>
+      <WishlistCarousel
+        :wishlistItems="wishlistItems"
+        @remove-from-wishlist="removeFromWishlist"
+        @add-to-cart="addToCart"
+      />
+    </div>
     <div class="container mx-auto p-6">
       <div class="mt-20 flex justify-between items-center flex-wrap mb-4">
         <select v-model="selectedCategory" class="border p-2 rounded mb-2 sm:mb-0">
@@ -35,14 +43,7 @@
       <Loading v-if="loading" />
       <ProductGrid :products="filteredProducts" v-else />
 
-      <div v-if="authStore.isAuthenticated">
-      <h2 class="text-2xl font-bold mb-4">Your Wishlist</h2>
-      <WishlistCarousel
-        :wishlistItems="wishlistItems"
-        @remove-from-wishlist="removeFromWishlist"
-        @add-to-cart="addToCart"
-      />
-    </div>
+      
     </div>
   </template>
   
