@@ -4,6 +4,7 @@ import { defineStore } from 'pinia';
 import { onMounted } from 'vue';
 import { loadFromLocalStorage } from './localStorageUtils';
 
+
 export const useCartStore = defineStore('cart', {
   state: () => ({
     cartItems: [],
@@ -78,6 +79,7 @@ export function useCart() {
   //onMounted (() => {
     
   //})
+  
 
   return {
     cartItems: cart.items,
