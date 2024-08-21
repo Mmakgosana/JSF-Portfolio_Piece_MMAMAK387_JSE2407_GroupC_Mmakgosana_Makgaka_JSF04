@@ -34,6 +34,15 @@
   
       <Loading v-if="loading" />
       <ProductGrid :products="filteredProducts" v-else />
+
+      <div v-if="authStore.isAuthenticated">
+      <h2 class="text-2xl font-bold mb-4">Your Wishlist</h2>
+      <WishlistCarousel
+        :wishlistItems="wishlistItems"
+        @remove-from-wishlist="removeFromWishlist"
+        @add-to-cart="addToCart"
+      />
+    </div>
     </div>
   </template>
   
@@ -41,11 +50,16 @@
   import { ref, onMounted, computed } from 'vue';
   import Loading from '../components/Loading.vue';
   import ProductGrid from '../components/ProductGrid.vue';
+  import { useAuthStore } from '../auth';
+  import { useWishlistStore } from '../WishlistStore';
+  import { useCart } from '../CartStore';
+  import WishlistCarousel from '../components/WishlistCarousel.vue';
   
   export default {
     components: {
       Loading,
-      ProductGrid
+      ProductGrid,
+      WishlistCarousel
     },
     setup() {
       const products = ref([]);
@@ -54,7 +68,21 @@
       const selectedCategory = ref('');
       const sortOrder = ref('');
       const loading = ref(true);
-  
+      const authStore = useAuthStore();
+      const wishlistStore = useWishlistStore();
+      const cartStore = useCart();
+
+      const wishlistItems = computed(() => wishlistStore.items);
+
+      const removeFromWishlist = (itemId) => {
+        wishlistStore.removeFromWishlist(itemId);
+      };
+
+      const addToCart = (item) => {
+      cartStore.addToCart(item);
+      removeFromWishlist(item.id);
+      };
+
       const fetchProducts = async () => {
         loading.value = true;
         const response = await fetch('https://fakestoreapi.com/products');
@@ -108,7 +136,11 @@
         sortOrder,
         loading,
         searchProducts,
-        filteredProducts
+        filteredProducts,
+        authStore,
+        wishlistItems,
+        removeFromWishlist,
+        addToCart,
       };
     }
   };

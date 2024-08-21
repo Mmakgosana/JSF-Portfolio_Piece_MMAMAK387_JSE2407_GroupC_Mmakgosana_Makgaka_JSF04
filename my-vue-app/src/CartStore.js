@@ -23,6 +23,7 @@ export function useCart() {
     const item = cart.items.find(item => item.id === id);
     if (item) {
       item.quantity = quantity;
+      console.log('Updated item:', item)
       saveCart();
     }
   };

@@ -21,7 +21,7 @@
             />
             <button @click="cartStore.removeFromCart(item.id)" class="remove-btn">Remove</button>
           </div>
-          <div class="item-total">${{ (item.price * item.quantity) }}</div>
+          <div class="item-total">${{ (item.price * item.quantity).toFixed(2) }}</div>
         </li>
       </ul>
       <div class="cart-summary">
@@ -50,7 +50,7 @@ export default defineComponent({
 
     // Function to handle clearing the cart
     const handleClearCart = () => {
-      cartStore.clearCart();
+      cartStore.clearCart(); // Clears the cart in the store and local storage
     };
 
     return {
