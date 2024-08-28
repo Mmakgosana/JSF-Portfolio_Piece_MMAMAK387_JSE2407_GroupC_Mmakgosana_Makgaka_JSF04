@@ -14,7 +14,7 @@
               </div>
             </th>
           </tr>
-        </thead>
+        </thead>;
         <tbody>
           <tr class="bg-white hover:bg-gray-50">
             <td v-for="item in comparisonStore.items" :key="item.id" class="p-4 border-b border-gray-300">

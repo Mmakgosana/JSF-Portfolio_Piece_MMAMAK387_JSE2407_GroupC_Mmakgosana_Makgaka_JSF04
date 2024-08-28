@@ -1,24 +1,47 @@
+# Node modules
+/node_modules/
+
+# Build output
+/dist/
+
+# Vite cache
+/.vite/
+
+# PostCSS cache (if any)
+.postcss.cache/
+
+# IDE and editor specific files
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
 # Logs
-logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependency directories
+pnpm-lock.yaml
+yarn.lock
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Mac system files
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+
+# Coverage
+/coverage/
+
+# Typescript cache
+*.tsbuildinfo
+
+# Misc
+*.swp
+*.swo
+*.swn
