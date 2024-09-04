@@ -145,6 +145,7 @@ import { useRouter } from 'vue-router';
 import { useCart } from '../CartStore';
 import { useWishlistStore } from '../WishlistStore';
 
+
 const isNavbarHidden = ref(true);
 const isLoggedIn = ref(!!localStorage.getItem('userToken'));
 const router = useRouter();

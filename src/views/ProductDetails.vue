@@ -132,10 +132,24 @@ export default {
       //(item) => item.id === parseInt(route.params.id)
     //);
 
+    //const addToCart = () => {
+      //cartStore.addToCart(product);
+      //router.push('/cart');
+    //};
+
     const addToCart = () => {
-      cartStore.addToCart(product);
-      router.push('/cart');
-    };
+  // Pass the necessary product details to the cart store
+  const productDetails = {
+    id: product.value.id,
+    title: product.value.title,
+    price: product.value.price,
+    image: product.value.image,
+    quantity: 1 // Default quantity when adding a new item
+  };
+  cartStore.addToCart(productDetails);
+  router.push('/cart');
+};
+
 
     const addToWishlist = () => {
       wishlistStore.addToWishlist(product);
